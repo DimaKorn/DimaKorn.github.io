@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Second assignment</title>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+
+void main()
+{
+
+    gl_Position = vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+
+
+uniform vec3 LineColor;
+void
+main()
+{
+
+    gl_FragColor =vec4(LineColor,1.0);
+
+}
+</script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/underscore.js"></script>
+    <script src="../js/backbone.js"></script>
+    <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="../Common/initShaders.js"></script>
+    <script type="text/javascript" src="../Common/MV.js"></script>
+
+    <script type="text/javascript" src="app.js"></script>
+
+<script type="text/javascript" src="app.js"></script>
+    <style type="text/css">
+        .inputRow{
+            padding-bottom: 15px;
+        }
+        .inputTitle{
+            display: inline-block;
+            width: 30%;
+        }
+        .input{
+
+        }
+    </style>
+</head>   
+
+<body>
+<div id="content" >
+    <h1 style="text-align: center">Second Assignment</h1>
+    <h4>Draw in the border area</h4>
+    <div style="display:inline-block;border:1px solid black;">
+    <canvas id="gl-canvas" width="512" height="512">
+    Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+    </div>
+
+    <div style="display:inline-block;width:50%;vertical-align: top;">
+       <fieldset>
+           <legend>Controls</legend>
+           <div class="inputRow">
+               <label class="inputTitle">Color picker( use Chrome or Mozilla!!!)</label>
+               <input type="color" id="color">
+
+           </div>
+
+       </fieldset>
+    </div>
+</div>
+<script>
+    $(function(){
+
+        var view=new App.MainView({model:new App.Scene()});
+        view.render(true);
+        window.view=view;
+    })
+</script>
+</body>
+</html>

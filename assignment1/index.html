@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>2D Sierpinski Gasket</title>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+
+varying vec3 vFlatPosition;
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+void
+main()
+{
+    vFlatPosition=vec3(rand(vPosition.xy),rand(vPosition.yx),rand(vPosition.xz));
+    gl_Position = vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+varying vec3 vFlatPosition;
+
+uniform int uMode;
+void
+main()
+{
+    if(uMode==2)
+    {
+    gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+    }
+    else {
+        gl_FragColor=vec4(vFlatPosition.xyz,1.0);
+    }
+}
+</script>
+<script src="../js/jquery.js"></script>
+<script src="../js/underscore.js"></script>
+<script src="../js/backbone.js"></script>
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+
+<script type="text/javascript" src="app.js"></script>
+    <style type="text/css">
+        .inputRow{
+            padding-bottom: 15px;
+        }
+        .inputTitle{
+            display: inline-block;
+            width: 30%;
+        }
+        .input{
+
+        }
+    </style>
+</head>   
+
+<body>
+<div id="content" >
+    <h1 style="text-align: center">First Assignment</h1>
+    <div style="display:inline-block;">
+    <canvas id="gl-canvas" width="512" height="512">
+    Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+    </div><div style="display:inline-block;width:50%;vertical-align: top;">
+       <fieldset>
+           <legend>Controls</legend>
+           <div class="inputRow">
+               <label class="inputTitle">Tesselation level</label>
+               <input data-related-prop="TesselationLevel" type="range" min="1" max="10" step="1">
+               <span data-related-prop="TesselationLevel">Current level:<span></span></span>
+           </div>
+           <div class="inputRow">
+               <label  class="inputTitle">Twist angle</label>
+               <input data-related-prop="TwistAngel" type="range" min="-90" max="90" step="1">
+               <span data-related-prop="TwistAngel">Current angel:<span></span></span>
+           </div>
+           <div class="inputRow">
+            <label class="inputTitle">Shape</label>
+               <input data-related-prop="Shape" id="Shape_1" type="radio" name="Shape" value="1">
+               <label for="Shape_1">Triangle</label>
+               <input type="radio" data-related-prop="Shape" id="Shape_2" name="Shape" value="2">
+               <label for="Shape_2">Square</label>
+           </div>
+           <div class="inputRow">
+               <label class="inputTitle">Render mode:</label>
+               <input data-related-prop="RenderMode" id="RenderMode_1" type="radio" name="RenderMode" value="1">
+               <label for="RenderMode_1">Fill</label>
+               <input data-related-prop="RenderMode" id="RenderMode_2" type="radio" name="RenderMode" value="2">
+               <label for="RenderMode_2">Wire</label>
+           </div>
+           <button>Render it!!!</button>
+       </fieldset>
+    </div>
+</div>
+<script>
+    $(function(){
+        var model=new App.RendererSettings();
+        var view=new App.MainView({model:model});
+        view.render(true);
+        window.view=view;
+    })
+</script>
+</body>
+</html>
